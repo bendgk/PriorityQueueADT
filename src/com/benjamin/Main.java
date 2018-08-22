@@ -3,7 +3,8 @@ package com.benjamin;
 public class Main {
 
     public static void main(String[] args) {
-        DynamicArray<Integer> arr = new DynamicArray<Integer>();
+        //testing DynamicArray
+        DynamicArray<Integer> arr = new DynamicArray<>();
         for (int i = 0; i < 10; i++) {
             arr.insert(i);
         }
