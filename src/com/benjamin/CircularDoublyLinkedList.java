@@ -1,11 +1,11 @@
 package com.benjamin;
 
-public class CircularDoublyLinkedList<T> {
+public class CircularDoublyLinkedList<T extends Comparable<T>> {
     private DoublyLinkedNode<T> start;
     private int size;
 
     CircularDoublyLinkedList() {
-        start = new DoublyLinkedNode<T>();
+        start = new DoublyLinkedNode<>();
         size = 1;
     }
 
@@ -14,7 +14,7 @@ public class CircularDoublyLinkedList<T> {
      * @param node DoublyLinkedNode to insert after
      * @param newNode DoublyLinkedNode to insert
      */
-    public void insertAfter(DoublyLinkedNode node, DoublyLinkedNode newNode) {
+    public void insertAfter(DoublyLinkedNode<T> node, DoublyLinkedNode<T> newNode) {
         newNode.setNext(node.getNext());
         newNode.setPrev(node);
         node.getNext().setPrev(newNode);
@@ -28,7 +28,7 @@ public class CircularDoublyLinkedList<T> {
      * @param node DoublyLinkedNode to insert after
      * @param newNode DoublyLinkedNode to insert
      */
-    public void insertBefore(DoublyLinkedNode node, DoublyLinkedNode newNode) {
+    public void insertBefore(DoublyLinkedNode<T> node, DoublyLinkedNode<T> newNode) {
         insertAfter(node.getPrev(), newNode);
     }
 
@@ -37,14 +37,14 @@ public class CircularDoublyLinkedList<T> {
      * @param data to append
      */
     public void append(T data) {
-        insertBefore(start, new DoublyLinkedNode(data));
+        insertBefore(start, new DoublyLinkedNode<T>(data));
     }
 
     /**
      * Removes a given node
      * @param node to remove
      */
-    public void remove(DoublyLinkedNode node) {
+    public void remove(DoublyLinkedNode<T> node) {
         assert node != start: "Cannot remove start node!";
         node.getPrev().setNext(node.getNext());
         node.getNext().setPrev(node.getPrev());
@@ -59,7 +59,7 @@ public class CircularDoublyLinkedList<T> {
         return size;
     }
 
-    public DoublyLinkedNode getStart() {
+    public DoublyLinkedNode<T> getStart() {
         return start;
     }
 
@@ -68,7 +68,7 @@ public class CircularDoublyLinkedList<T> {
         String out = start.toString();
 
         if (size > 1) {
-            DoublyLinkedNode node = start.getNext();
+            DoublyLinkedNode<T> node = start.getNext();
             out += " <-> ";
 
             do {
