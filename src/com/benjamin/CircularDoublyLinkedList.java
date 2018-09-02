@@ -1,12 +1,14 @@
 package com.benjamin;
 
-public class CircularDoublyLinkedList<T extends Comparable<T>> {
+import com.benjamin.exceptions.RemoveStartNodeException;
+
+public class CircularDoublyLinkedList<T> {
     private DoublyLinkedNode<T> start;
     private int size;
 
     CircularDoublyLinkedList() {
-        start = new DoublyLinkedNode<>();
-        size = 1;
+        start = new DoublyLinkedNode<T>();
+        size = 0;
     }
 
     /**
@@ -37,22 +39,57 @@ public class CircularDoublyLinkedList<T extends Comparable<T>> {
      * @param data to append
      */
     public void append(T data) {
-        insertBefore(start, new DoublyLinkedNode<T>(data));
+        if(isEmpty()) {
+            start.setData(data);
+            size++;
+        }
+        else {
+            insertBefore(start, new DoublyLinkedNode<T>(data));
+        }
+    }
+
+    /**
+     * Tries to remove the last node in CicularDoublyLinkedList
+     * @throws RemoveStartNodeException
+     */
+    public void pop() {
+        remove(start.getPrev());
     }
 
     /**
      * Removes a given node
      * @param node to remove
      */
-    public void remove(DoublyLinkedNode<T> node) {
-        assert node != start: "Cannot remove start node!";
+    public void remove(DoublyLinkedNode<T> node) throws RemoveStartNodeException {
+        if(node == start){ throw new RemoveStartNodeException("Cannot remove start node!"); }
         node.getPrev().setNext(node.getNext());
         node.getNext().setPrev(node.getPrev());
         size--;
     }
 
+    /**
+     *
+     * @param o
+     */
+    public void concat(CircularDoublyLinkedList<T> o) {
+        /*
+        the last of this to link to the start of o
+        the last of o to the start of this
+         */
+        getStart().getPrev().setNext(o.getStart());
+        o.getStart().getPrev().setNext(getStart());
+
+        DoublyLinkedNode<T> tempNode = getStart().getPrev();
+
+        getStart().setPrev(o.getStart().getPrev());
+        o.getStart().setPrev(tempNode);
+
+        size += o.getSize();
+
+    }
+
     public boolean isEmpty() {
-        return size > 1;
+        return size == 0;
     }
 
     public int getSize() {
@@ -67,7 +104,7 @@ public class CircularDoublyLinkedList<T extends Comparable<T>> {
     public String toString() {
         String out = start.toString();
 
-        if (size > 1) {
+        if (size > 0) {
             DoublyLinkedNode<T> node = start.getNext();
             out += " <-> ";
 
@@ -79,7 +116,7 @@ public class CircularDoublyLinkedList<T extends Comparable<T>> {
             out += start.getPrev().toString();
             out += "\n  ^";
             out += new String(new char[getSize() - 1]).replace("\0", "__________").substring(0, (getSize() - 1) * 10 - 1);
-            out += "|";
+            out += "^";
         }
 
         return out;

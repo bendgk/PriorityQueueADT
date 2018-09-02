@@ -1,6 +1,6 @@
 package com.benjamin;
 
-public class DoublyLinkedNode<T extends Comparable<T>> extends Node<T, DoublyLinkedNode<T>>{
+public class DoublyLinkedNode<T> extends Node<T, DoublyLinkedNode<T>>{
     DoublyLinkedNode() {
         setPrev(this);
         setNext(this);

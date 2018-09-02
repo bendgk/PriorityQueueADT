@@ -1,6 +1,6 @@
 package com.benjamin;
 
-abstract class Node<T extends Comparable<T>, N> {
+abstract class Node<T, N> {
     private N prev;
     private N next;
     private T data;
