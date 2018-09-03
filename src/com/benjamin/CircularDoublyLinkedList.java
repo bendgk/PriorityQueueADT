@@ -3,11 +3,12 @@ package com.benjamin;
 import com.benjamin.exceptions.RemoveStartNodeException;
 
 public class CircularDoublyLinkedList<T> {
-    private DoublyLinkedNode<T> start;
+    private Node<T> start;
     private int size;
+    private NodeType nodeType;
 
-    CircularDoublyLinkedList() {
-        start = new DoublyLinkedNode<T>();
+    CircularDoublyLinkedList(NodeType nodeType) {
+        this.nodeType = nodeType;
         size = 0;
     }
 
@@ -16,7 +17,7 @@ public class CircularDoublyLinkedList<T> {
      * @param node DoublyLinkedNode to insert after
      * @param newNode DoublyLinkedNode to insert
      */
-    public void insertAfter(DoublyLinkedNode<T> node, DoublyLinkedNode<T> newNode) {
+    public void insertAfter(Node<T> node, Node<T> newNode) {
         newNode.setNext(node.getNext());
         newNode.setPrev(node);
         node.getNext().setPrev(newNode);
@@ -30,7 +31,7 @@ public class CircularDoublyLinkedList<T> {
      * @param node DoublyLinkedNode to insert after
      * @param newNode DoublyLinkedNode to insert
      */
-    public void insertBefore(DoublyLinkedNode<T> node, DoublyLinkedNode<T> newNode) {
+    public void insertBefore(Node<T> node, Node<T> newNode) {
         insertAfter(node.getPrev(), newNode);
     }
 
@@ -39,12 +40,20 @@ public class CircularDoublyLinkedList<T> {
      * @param data to append
      */
     public void append(T data) {
+       append(NodeFactory.createNode(nodeType, data));
+    }
+
+    /**
+     * Append node to end of CircularDoublyLinkedList
+     * @param node
+     */
+    public void append(Node<T> node) {
         if(isEmpty()) {
-            start.setData(data);
+            start = node;
             size++;
         }
         else {
-            insertBefore(start, new DoublyLinkedNode<T>(data));
+            insertBefore(start, node);
         }
     }
 
@@ -60,7 +69,7 @@ public class CircularDoublyLinkedList<T> {
      * Removes a given node
      * @param node to remove
      */
-    public void remove(DoublyLinkedNode<T> node) throws RemoveStartNodeException {
+    public void remove(Node<T> node) throws RemoveStartNodeException {
         if(node == start){ throw new RemoveStartNodeException("Cannot remove start node!"); }
         node.getPrev().setNext(node.getNext());
         node.getNext().setPrev(node.getPrev());
@@ -79,7 +88,7 @@ public class CircularDoublyLinkedList<T> {
         getStart().getPrev().setNext(o.getStart());
         o.getStart().getPrev().setNext(getStart());
 
-        DoublyLinkedNode<T> tempNode = getStart().getPrev();
+        Node<T> tempNode = getStart().getPrev();
 
         getStart().setPrev(o.getStart().getPrev());
         o.getStart().setPrev(tempNode);
@@ -96,16 +105,18 @@ public class CircularDoublyLinkedList<T> {
         return size;
     }
 
-    public DoublyLinkedNode<T> getStart() {
+    public Node<T> getStart() {
         return start;
     }
+
+    public NodeType getNodeType() { return nodeType; }
 
     @Override
     public String toString() {
         String out = start.toString();
 
         if (size > 0) {
-            DoublyLinkedNode<T> node = start.getNext();
+            Node<T> node = start.getNext();
             out += " <-> ";
 
             do {

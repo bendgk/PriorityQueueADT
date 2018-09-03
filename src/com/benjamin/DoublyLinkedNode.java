@@ -1,13 +1,10 @@
 package com.benjamin;
 
-public class DoublyLinkedNode<T> extends Node<T, DoublyLinkedNode<T>>{
-    DoublyLinkedNode() {
-        setPrev(this);
-        setNext(this);
-        setData(null);
-    }
+public class DoublyLinkedNode<T> extends Node<T>{
 
     DoublyLinkedNode(T data) {
+        setPrev(this);
+        setNext(this);
         setData(data);
     }
 

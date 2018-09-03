@@ -13,9 +13,9 @@ public class Main {
         arr.pop(2);
         System.out.println(arr);
         */
-
-        CircularDoublyLinkedList<Integer> linkedList = new CircularDoublyLinkedList<Integer>();
-        CircularDoublyLinkedList<Integer> linkedList1 = new CircularDoublyLinkedList<Integer>();
+        /*
+        CircularDoublyLinkedList<Integer> linkedList = new CircularDoublyLinkedList<Integer>(NodeType.DOUBLY_LINKED_NODE);
+        CircularDoublyLinkedList<Integer> linkedList1 = new CircularDoublyLinkedList<Integer>(NodeType.DOUBLY_LINKED_NODE);
         linkedList.append(5);
         linkedList.append(4);
         linkedList.append(3);
@@ -29,11 +29,21 @@ public class Main {
         System.out.println(linkedList);
 
         //Iterate forwards thru list
+        /*
         DoublyLinkedNode<Integer> node = linkedList.getStart();
 
         do {
             System.out.print(node + " ");
             node = node.getNext();
         } while (node != linkedList.getStart());
+
+        DoublyLinkedNode<Integer> fbNode = new FibonacciNode<>(5,0);
+        FibonacciNode<Integer> fbNode2 = new FibonacciNode<>(5,0);
+        //fbNode.setParent(fbNode2);
+
+        //System.out.println(fbNode.getParent());
+        */
+
+        FibonacciHeap<Integer> test = new FibonacciHeap<>(new FibonacciNode<Integer>(5, 0));
     }
 }
