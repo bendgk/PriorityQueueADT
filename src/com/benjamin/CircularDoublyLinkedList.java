@@ -1,14 +1,10 @@
 package com.benjamin;
 
-import com.benjamin.exceptions.RemoveStartNodeException;
-
 public class CircularDoublyLinkedList<T> {
     private Node<T> start;
     private int size;
-    private NodeType nodeType;
 
-    CircularDoublyLinkedList(NodeType nodeType) {
-        this.nodeType = nodeType;
+    CircularDoublyLinkedList() {
         size = 0;
     }
 
@@ -40,7 +36,7 @@ public class CircularDoublyLinkedList<T> {
      * @param data to append
      */
     public void append(T data) {
-       append(NodeFactory.createNode(nodeType, data));
+       append(NodeFactory.createNode(data));
     }
 
     /**
@@ -59,7 +55,6 @@ public class CircularDoublyLinkedList<T> {
 
     /**
      * Tries to remove the last node in CicularDoublyLinkedList
-     * @throws RemoveStartNodeException
      */
     public void pop() {
         remove(start.getPrev());
@@ -69,11 +64,20 @@ public class CircularDoublyLinkedList<T> {
      * Removes a given node
      * @param node to remove
      */
-    public void remove(Node<T> node) throws RemoveStartNodeException {
-        if(node == start){ throw new RemoveStartNodeException("Cannot remove start node!"); }
-        node.getPrev().setNext(node.getNext());
-        node.getNext().setPrev(node.getPrev());
+    public void remove(Node<T> node) {
+        if(node.getNext() == node) {
+            start = null;
+        }
+        else {
+            node.getNext().setPrev(node.getPrev());
+            node.getPrev().setNext(node.getNext());
+            if(node == start) {
+                start = node.getNext();
+            }
+        }
         size--;
+
+        node.clearLinks();
     }
 
     /**
@@ -85,15 +89,20 @@ public class CircularDoublyLinkedList<T> {
         the last of this to link to the start of o
         the last of o to the start of this
          */
-        getStart().getPrev().setNext(o.getStart());
-        o.getStart().getPrev().setNext(getStart());
+        if(!o.isEmpty()) {
+            if (getStart() == null) {                        //if this linked list is empty
+                start = o.getStart();
+            } else {
+                getStart().getPrev().setNext(o.getStart());
+                o.getStart().getPrev().setNext(getStart());
 
-        Node<T> tempNode = getStart().getPrev();
+                Node<T> tempNode = getStart().getPrev();
 
-        getStart().setPrev(o.getStart().getPrev());
-        o.getStart().setPrev(tempNode);
-
-        size += o.getSize();
+                getStart().setPrev(o.getStart().getPrev());
+                o.getStart().setPrev(tempNode);
+            }
+            size += o.getSize();
+        }
 
     }
 
@@ -109,27 +118,15 @@ public class CircularDoublyLinkedList<T> {
         return start;
     }
 
-    public NodeType getNodeType() { return nodeType; }
-
     @Override
     public String toString() {
-        String out = start.toString();
+        String out = "";
+        Node<T> node = start;
 
-        if (size > 0) {
-            Node<T> node = start.getNext();
-            out += " <-> ";
-
-            do {
-                out += node.toString() + " <-> ";
-                node = node.getNext();
-            } while (node != start.getPrev());
-
-            out += start.getPrev().toString();
-            out += "\n  ^";
-            out += new String(new char[getSize() - 1]).replace("\0", "__________").substring(0, (getSize() - 1) * 10 - 1);
-            out += "^";
+        for (int i = 0; i < size; i++) {
+            out += node.toString();
+            node = node.getNext();
         }
-
         return out;
     }
 }

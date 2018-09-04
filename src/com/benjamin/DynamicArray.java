@@ -26,8 +26,20 @@ public class DynamicArray<T> {
      */
     public DynamicArray(T[] arr) {
         capacity = arr.length;
+        size = arr.length;
         elements = (T[])new Object[capacity];
         System.arraycopy(arr, 0, elements, 0, arr.length);
+    }
+
+    public DynamicArray(CircularDoublyLinkedList linkedList) {
+        capacity = linkedList.getSize() + 1;
+        elements = (T[])new Object[capacity];
+
+        Node<T> node = linkedList.getStart();
+        do {
+            insert((T)node);
+            node = node.getNext();
+        } while (node != linkedList.getStart());
     }
 
     public int size() { return size; }

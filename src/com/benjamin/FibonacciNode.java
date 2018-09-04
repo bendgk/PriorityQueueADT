@@ -5,13 +5,13 @@ public class FibonacciNode<T> extends DoublyLinkedNode<T> {
 
     //Fibonacci heap attributes
     private FibonacciNode parent;
-    private FibonacciNode child;
-    private int degree;
+    private CircularDoublyLinkedList<T> children;
     private boolean isMarked;
 
-    FibonacciNode(T data, int priority) {
-        super(data);
-        setKey(priority);
+    FibonacciNode(int key, T value) {
+        super(value);
+        setKey(key);
+        children = new CircularDoublyLinkedList<>();
     }
 
     //Mess of getters an setters for all attributes
@@ -19,10 +19,15 @@ public class FibonacciNode<T> extends DoublyLinkedNode<T> {
     public void setKey(int key) { this.key = key; }
     public FibonacciNode getParent() { return parent; }
     public void setParent(FibonacciNode parent) { this.parent = parent; }
-    public FibonacciNode getChild() { return child; }
-    public void setChild(FibonacciNode child) { this.child = child; }
-    public int getDegree() { return degree; }
-    public void setDegree(int degree) { this.degree = degree; }
+    public CircularDoublyLinkedList<T> getChildren() { return children; }
+    public int getDegree() {
+        return getChildren().getSize();
+    }
     public boolean isMarked() { return isMarked; }
     public void setMarked(boolean marked) { isMarked = marked; }
+
+    @Override
+    public String toString() {
+        return "| Key: " + getKey() + " Degree: " + getDegree() + " |";
+    }
 }

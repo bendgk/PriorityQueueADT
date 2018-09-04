@@ -24,6 +24,7 @@ public class Main {
 
         linkedList1.append(7);
         linkedList1.append(8);
+        linkedList.remove(linkedList.getStart());
 
         linkedList.concat(linkedList1);
         System.out.println(linkedList);
@@ -44,6 +45,18 @@ public class Main {
         //System.out.println(fbNode.getParent());
         */
 
-        FibonacciHeap<Integer> test = new FibonacciHeap<>(new FibonacciNode<Integer>(5, 0));
+        FibonacciHeap<Integer> test = new FibonacciHeap<>();
+        for (int i = 0; i < 100; i++) {
+            test.insert(i, 1337);
+        }
+
+
+        for (int i = 0; i < 100; i++) {
+            System.out.println(test.extractMax() + " size: " + test.getSize());
+        }
+
+
+        //System.out.println(test);
+
     }
 }
