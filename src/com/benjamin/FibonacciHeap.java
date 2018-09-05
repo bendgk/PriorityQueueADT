@@ -1,5 +1,4 @@
 package com.benjamin;
-import java.lang.Math;
 
 public class FibonacciHeap<T> {
     private FibonacciNode<T> max;
