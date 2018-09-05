@@ -1,7 +1,7 @@
 package com.benjamin;
 import java.lang.Math;
 
-public class FibonacciHeap<T extends Comparable<T>> {
+public class FibonacciHeap<T> {
     private FibonacciNode<T> max;
     private int size = 0;
     private CircularDoublyLinkedList<T> roots;
